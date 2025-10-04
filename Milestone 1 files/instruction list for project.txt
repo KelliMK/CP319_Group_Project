@@ -1,0 +1,22 @@
+instruction list for project
+
+add
+addi
+and
+andi
+auipc
+beq
+bge
+blt
+bne
+lui
+or
+ori
+sll
+slt
+slti
+sra
+srl
+sub
+xor
+xori
