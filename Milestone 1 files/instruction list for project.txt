@@ -1,6 +1,7 @@
 instruction list for project
+https://msyksphinz-self.github.io/riscv-isadoc/html/rvi.html
 
-add
+add 
 addi
 and
 andi
@@ -17,6 +18,6 @@ slt
 slti
 sra
 srl
-sub
+sub	
 xor
 xori
