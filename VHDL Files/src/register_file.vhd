@@ -7,7 +7,6 @@ use ieee.numeric_std.all;
 --! brief 32-bit RISC-V register file
 entity simple_register is 
   port(
-
   	--! inputs
     rst, clk, ena : IN std_logic;
     reg_in : IN std_logic_vector(31 downto 0);

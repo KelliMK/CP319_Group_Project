@@ -21,3 +21,5 @@ begin
 
 	out_num <= a_num + b_num;
 
+end SYNTH_ADD;
+

@@ -1,5 +1,5 @@
 instruction list for project
-https://msyksphinz-self.github.io/riscv-isadoc/html/rvi.html
+Reference: https://msyksphinz-self.github.io/riscv-isadoc/html/rvi.html
 
 add 
 addi
@@ -11,6 +11,7 @@ bge
 blt
 bne
 lui
+lw
 or
 ori
 sll
@@ -19,5 +20,6 @@ slti
 sra
 srl
 sub	
+sw
 xor
 xori
