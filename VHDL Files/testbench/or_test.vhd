@@ -31,13 +31,18 @@ begin
   begin
   a_sig <= X"00000000";
   b_sig <= X"FFFFFFFF";
-  wait for 10 ms;
+  wait for 100 ms;
   assert(out_sig=X"FFFFFFFF") report "Failed test 0" severity error;
   
   a_sig <= X"00000000";
   b_sig <= X"0000000F";
-  wait for 10 ms;
+  wait for 100 ms;
   assert(out_sig=X"0000000F") report "Failed test 1" severity error;
   
-	end process;
+  a_sig <= X"AAAAAAAA";
+  b_sig <= X"55555555";
+  wait for 100 ms;
+  assert(out_sig=X"FFFFFFFF") report "Failed test 2" severity error;
+	
+  end process;
 end behavioral;
