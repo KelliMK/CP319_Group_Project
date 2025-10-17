@@ -11,7 +11,7 @@ port(
 );
 end entity ORI_CIRC; 
 
-architecture SYNTH_OR of ORI_CIRC is 
+architecture SYNTH_ORI of ORI_CIRC is 
 
 	SIGNAL a_num : std_logic_vector(31 downto 0);
 	SIGNAL imm_num : std_logic_vector(11 downto 0);
@@ -30,5 +30,5 @@ begin
     
     out_reg <= out_num;
 
-end SYNTH_OR;
+end SYNTH_ORI;
 
