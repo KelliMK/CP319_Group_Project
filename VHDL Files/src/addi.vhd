@@ -1,24 +1,25 @@
 library IEEE;
-use IEEE.STD_LOGIC_1164.ALL; 
+use IEEE.std_logic_1164.all;
 use IEEE.NUMERIC_STD.ALL;
 
-entity ADD is
+entity ADDI is
 port( 
   rs1 : in std_logic_vector(31 downto 0);
-  rs2 : in std_logic_vector(31 downto 0);
+  imm : in std_logic_vector(31 downto 0);
   rd : out std_logic_vector(31 downto 0);
 );
-end entity ADD;
+end entity ADDI;
 
-architecture behavioural of ADD is
+architecture behavioural of ADDI is
   signal a : signed(31 downto 0);
-  signal b : signed(31 downto 0);
+  signal immediate : signed(31 downto 0);
   signal out_sig : signed(31 downto 0);
 begin
   
   a <= signed(rs1);
-  b <= signed(rs2);
-  out_sig <= a + b;
+  immediate <= signed(imm);
+  out_sig <= a + immediate;
   rd <= std_logic_vector(out_sig);
 
+ 
 end architecture behavioural;
