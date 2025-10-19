@@ -1,4 +1,4 @@
---! basic RISCV 32-bit register file
+--! basic RISCV 32-bit program counter
 
 library ieee;
 use ieee.std_logic_1164.all;
