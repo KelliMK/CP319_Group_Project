@@ -5,34 +5,28 @@ USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 -- RAM entity
-ENTITY RANDOM_ACCESS_MEMORY IS
+ENTITY ram32 IS
   PORT(
-    DATAIN : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-    ADDRESS : IN STD_LOGIC_VECTOR(4 DOWNTO 0);
-    W_R : IN STD_LOGIC; --! Write when 0, Read when 1
-    DATAOUT : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+    I_clk : in std_logic;
+    I_we : in std_logic;
+    I_addr : in std_logic_vector(31 downto 0);
+    I_data : in std_logic_vector(31 downto 0);
+    O_data : out std_logic_vector(31 downto 0)
   );
-END ENTITY;
+end ram32;
 
--- RAM architecture
-ARCHITECTURE RAM_BEHAVIOUR OF RANDOM_ACCESS_MEMORY IS
-
-TYPE RAM_MEM IS ARRAY (31 DOWNTO 0) OF STD_LOGIC_VECTOR(31 DOWNTO 0);
-SIGNAL MEMORY : RAM_MEM;
-SIGNAL ADDR : INTEGER RANGE 0 TO 31;
-
-BEGIN
-
-  PROCESS(ADDRESS, DATAIN, W_R)
-  BEGIN
-    ADDR<=CONV_INTEGER(ADDRESS);
-    IF(W_R='0') THEN
-      MEMORY(ADDR)<=DATAIN;
-    ELSIF(W_R='1') THEN
-      DATAOUT<=MEMORY(ADDR);
-    ELSE
-      DATAOUT<="00000000000000000000000000000000";
-    END IF;
-  END PROCESS;
-
-END RAM_BEHAVIOR;
+architecture SYNTH_ram32 of ram32 is 
+  type store_t is array (0 to 31) of std_logic_vector(31 downto 0);
+  signal ram_32: store_t := (others => X"00000000");
+begin
+  process(I_clk)
+  begin
+    if rising_edge(I_clk) then
+      if (I_we = '1') then
+        ram_32(to_integer(unsigned(I_addr(10 downto 0)))) <= I_data;
+      else
+        O_data <= ram_32(to_integer(unsigned(I_addr(10 downto 0))));
+      end if;
+    end if;
+  end process;
+end SYNTH_ram32;

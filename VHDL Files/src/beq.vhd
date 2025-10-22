@@ -26,9 +26,9 @@ begin
 		reg_2_val <= unsigned(rs2);
 		offset(10 downto 5) <= inst_in(30 downto 25);
 		offset(4 downto 1) <= inst_in(11 downto 8);
-		offset(11 downto 11) <= inst_in(7 downto 7);
+		offset(11) <= inst_in(7);
 		offset(0 downto 0) <= "0";
-		if (inst_in(31)) then 
+		if (inst_in(31) = 1) then 
 		--! above line keeps throwing 
 		--! "WARNING: NUMERIC_STD."=": metavalue detected, returning FALSE" 
 		--! despite exhibiting proper behavior
