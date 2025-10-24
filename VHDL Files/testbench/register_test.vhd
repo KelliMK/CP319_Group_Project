@@ -122,6 +122,8 @@ BEGIN
   	I_we <= '1';
     wait for 4 ns;
     assert (O_data1=X"44444444") report ("Failed Test 6") severity note;
+    
+    assert false report ("Tests Finished") severity note;
 
     wait;
  	end process;

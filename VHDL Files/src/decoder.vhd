@@ -29,13 +29,19 @@ begin
       case I_inst(6 downto 2) is 
         --! lw operation (load word)
         when "00000" =>
-          O_imm <= std_logic_vector(resize(signed(I_inst(11 downto 0), O_imm'length)));
+          O_imm(31 downto 12) <= I_inst(31 downto 12);
+          O_imm(11 downto 0) <= "000000000000";
           O_we <= '1';
           O_alu_op <= "001101";
 
         --! immediate operations slti, addi, andi, ori, xori
         when "00100" => 
-          O_imm <= std_logic_vector(resize(signed(I_inst(11 downto 0), O_imm'length)));
+          O_imm(11 downto 0) <= I_inst(31 downto 20);
+          if (I_inst(31)='1') then
+            O_imm(31 downto 12) <= "11111111111111111111";
+          else
+            O_imm(31 downto 12) <= "00000000000000000000";
+          end if;
           O_we <= '1';
           case I_inst(14 downto 12) is 
             when "000" =>
@@ -48,6 +54,8 @@ begin
               O_alu_op <= "010100";
             when "111" =>
               O_alu_op <= "010101";
+            when others =>
+              O_alu_op <= "111111";
           end case;
         --! auipc operation
         when "00101" => 
@@ -91,6 +99,8 @@ begin
               O_alu_op <= "100100";
             when "111" =>
               O_alu_op <= "100101";
+            when others =>
+              O_alu_op <= "111111";
           end case;
         --! lui operation
         when "01101" => 
@@ -102,7 +112,7 @@ begin
         --! branching operations
         when "11000" =>
           O_we <= '0';
-          if (inst(31)='0') then
+          if (I_inst(31)='0') then
             O_imm(31 downto 12) <= "00000000000000000000";
           else
             O_imm(31 downto 12) <= "11111111111111111111";
@@ -120,6 +130,8 @@ begin
               O_alu_op <= "000110";
             when "101" =>
               O_alu_op <= "000111";
+            when others =>
+              O_alu_op <= "111111";
           end case;
         when others =>
           O_we <= '0';
