@@ -20,6 +20,8 @@ begin
 				s_state <= "0001";
 			else
 				case s_state is 
+          when "0000" =>
+           	s_state <= "0001";
 					when "0001" =>
 						s_state <= "0010";
 					when "0010" =>
@@ -27,9 +29,9 @@ begin
 					when "0100" =>
 						s_state <= "1000";
 					when "1000" =>
-						s_state <= "0001";
+						s_state <= "0000";
 					when others =>
-						s_state <= "0001";
+						s_state <= "0000";
 				end case;
 			end if;
 		end if;

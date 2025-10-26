@@ -1,8 +1,8 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
-use IEEE.number_std.all;
+use IEEE.numeric_std.all;
 
-package constants is 
+package my_constants is 
 
 --! Operation Codes
 constant OP_ADD : std_logic_vector(5 downto 0) := "011100"; -- ADD
@@ -28,6 +28,12 @@ constant OP_SUB : std_logic_vector(5 downto 0) := "011101"; -- SUB
 constant OP_SW : std_logic_vector(5 downto 0) := "011000"; -- SW
 constant OP_XOR : std_logic_vector(5 downto 0) := "100001"; -- XOR
 constant OP_XORI : std_logic_vector(5 downto 0) := "010011"; -- XORI
+
+-- Program Counter opcodes
+constant PC_OP_NOP: std_logic_vector(1 downto 0):= "00"; -- Halt and spin
+constant PC_OP_INC: std_logic_vector(1 downto 0):= "01"; -- Regular Operation
+constant PC_OP_ASSIGN: std_logic_vector(1 downto 0):= "10"; -- Assign new value to PC
+constant PC_OP_RESET: std_logic_vector(1 downto 0):= "11"; -- reset PC back to Hx00000000
 
 --! Operation Tests
 --! for new tests, here's the template "XXXXX XX XXXXX XXXXX XXX XXXXX XXXXX 11"
@@ -60,10 +66,16 @@ constant TEST_BLT : std_logic_vector(31 downto 0) := "00000000100101000100010001
 constant TEST_BNE : std_logic_vector(31 downto 0) := "00000000100101000001010001100011";
 
 -- Saves 4096 to register 20
+-- For other tests: "ZZZZZZZZZZZZZZZZZZZZ XXXXX 0110111"
+-- - Z is the unsigned immediate to place in the rd
+-- - X is the rd
 constant TEST_LUI : std_logic_vector(31 downto 0) := "00000000000000000001101000110111";
 
 -- Loads from memory address 0x0000 in reg 21
--- for other registers "00000000000000000010XXXXX0000011"
+-- for other registers "ZZZZZZZZZZZZ YYYYY 010 XXXXX 0000011"
+-- - X is destination register 
+-- - Y is register to load memory location from 
+-- - Z is memory location offset (sign extended)
 constant TEST_LW21 : std_logic_vector(31 downto 0) := "00000000000000000010101010000011";
 
 constant TEST_LW08 : std_logic_vector(31 downto 0) := "00000000000000000010010000000011";
@@ -105,8 +117,8 @@ constant TEST_XOR : std_logic_vector(31 downto 0) := "00000000100101000100100100
 -- XOR reg 9 and "00000000000000000000011111111111" and store in reg 19
 constant TEST_XORI : std_logic_vector(31 downto 0) := "01111111111110010100100110010011";
 
-end constants;
+end my_constants;
 
-package body constants is 
--- nothing
-end constants;
+package body my_constants is 
+
+end my_constants;

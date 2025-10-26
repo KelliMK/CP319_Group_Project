@@ -4,29 +4,41 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+library work;
+use work.my_constants.all;
+
 --! brief 32-bit RISC-V register file
 entity program_counter is 
   port(
-  	--! inputs
-    rst, clk, ena : IN std_logic;
-    pc_in : IN std_logic_vector(31 downto 0);
-    pc_out : OUT std_logic_vector(31 downto 0)
+    --! inputs
+    I_clk : in std_logic;
+    I_nPC : in std_logic_vector(31 downto 0);
+    I_nPCop : in std_logic_vector(1 downto 0);
+    O_PC : out std_logic_vector(31 downto 0)
   );
 end program_counter;
 
-architecture pc_arch of program_counter is
+architecture SYNTH_pc of program_counter is
+  --! initialize the PC to memory address Hx00000000
+  SIGNAL current_pc: std_logic_vector(31 downto 0) := X"00000000"; 
 
 begin
-  process (rst, clk)
+  process (I_clk)
   begin
-    if (rst = '1') then
-      pc_out <= X"00000000";
-    elsif (clk = '1') then
-      if (ena = '1') then
-        pc_out <= pc_in;
-      else
-        pc_out <= std_logic_vector(to_unsigned(to_integer(unsigned(pc_out)) + 32, pc_out'length));
-      end if;
+    if rising_edge(I_clk) then
+      case I_nPCop is 
+        when PC_OP_NOP => --! No operation, do nothing
+          --! Keeps the PC the same
+        when PC_OP_INC => --! increment PC
+          current_pc <= std_logic_vector(unsigned(current_pc) + 32);
+        when PC_OP_ASSIGN => --! set from external input
+          current_pc <= I_nPC;
+        when PC_OP_RESET => --! Reset
+          current_pc <= X"00000000";
+        when others =>
+          --! do nothing
+      end case;
     end if;
   end process;
-end architecture pc_arch;
+  O_PC <= current_pc;
+end architecture SYNTH_pc;
