@@ -9,6 +9,7 @@ entity ram_tb is
 	PORT(
 		I_clk : in STD_LOGIC;
     I_we : in STD_LOGIC;
+    I_en : in STD_LOGIC;
     I_addr : in STD_LOGIC_VECTOR (31 downto 0);
     I_data : in STD_LOGIC_VECTOR (31 downto 0);
     O_data : out STD_LOGIC_VECTOR (31 downto 0)
@@ -17,7 +18,7 @@ end ram_tb;
 
 architecture SYNTH_ram_tb of ram_tb is
   type store_t is array (0 to 31) of std_logic_vector(31 downto 0);
-  -- DEATH DEATH DEATH
+  -- AAAAAAAAAAAAAAAAAAAAAAAAAAAAA
   signal ram: store_t := (
   	"00000000000000000001010000110111",
   	"00000000000000000001010010110111",
@@ -85,6 +86,7 @@ ARCHITECTURE SYNTH_d_a_r_cs_tb OF d_a_r_cs_tb IS
 	Port ( 
 		I_clk : in  STD_LOGIC;
     I_we : in  STD_LOGIC;
+    I_en : in STD_LOGIC;
     I_addr : in  STD_LOGIC_VECTOR (31 downto 0);
     I_data : in  STD_LOGIC_VECTOR (31 downto 0);
     O_data : out  STD_LOGIC_VECTOR (31 downto 0)
@@ -156,13 +158,14 @@ ARCHITECTURE SYNTH_d_a_r_cs_tb OF d_a_r_cs_tb IS
 
 	SIGNAL I_clk: std_logic := '0';
 	SIGNAL reset : std_logic := '1';
-	SIGNAL state : std_logic_vector(4 downto 0) := (others => '0');
+	SIGNAL state : std_logic_vector(5 downto 0) := (others => '0');
 
 	SIGNAL en_fetch : std_logic := '0';
 	SIGNAL en_decode : std_logic := '0';
 	SIGNAL en_regread : std_logic := '0';
-	SIGNAL en_regwrite : std_logic := '0';
 	SIGNAL en_alu : std_logic := '0';
+	SIGNAL en_memory : std_logic := '0';
+	SIGNAL en_regwrite : std_logic := '0';
 
 	signal ramWE : std_logic := '0';
 	signal ramAddr: std_logic_vector(31 downto 0);
@@ -264,11 +267,12 @@ BEGIN
 	end process;
 
 	-- tie the control_simple state machine to the enable bits
-    en_fetch <= state(0);
+  en_fetch <= state(0);
 	en_decode <= state(1);
 	en_regread <= state(2);
 	en_alu <= state(3);
-	en_regwrite <= state(4);
+	en_memory <= state(4)
+	en_regwrite <= state(5);
 
 	pcop <= PC_OP_RESET when reset = '1' else	
 	  PC_OP_ASSIGN when takeBranch = '1' and state(4) = '1' else 
