@@ -74,7 +74,7 @@ begin
 					--! DUMMY CODE ABOVE
 					s_takeBranch <= '0';
 				when OP_ADDI => --! ADDI
-					s_result <= std_logic_vector(unsigned('0' & I_dataIMM) + unsigned('0' & I_PC));
+					s_result <= std_logic_vector(unsigned('0' & I_dataIMM) + unsigned('0' & I_data1));
 					s_takeBranch <= '0';
 				when OP_SLTI => --! SLTI
 					if (signed(I_data1) < signed(I_dataIMM)) then
